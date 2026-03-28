@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Real-time AWS cloud news aggregated from official AWS RSS feeds — What's New, News Blog, Architecture Blog, and Security Blog." />
+  <meta name="theme-color" content="#0f1419" />
+  <title>AWS Cloud News Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Preconnect for system fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+</head>
+<body>
+
+  <!-- ======================== HEADER ======================== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      <a href="/" class="header-logo" aria-label="AWS Cloud News Dashboard">
+        <div class="logo-icon" aria-hidden="true">&#9729;</div>
+        <div class="header-titles">
+          <span class="site-title">AWS Cloud News</span>
+          <span class="site-subtitle">Real-time Updates from Official Sources</span>
+        </div>
+      </a>
+      <div class="header-spacer"></div>
+      <div class="live-badge" aria-live="polite">
+        <span class="live-dot"></span>
+        Live
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================== HERO ======================== -->
+  <section class="hero" aria-label="Page intro">
+    <h1>Stay Ahead of the Cloud</h1>
+    <p>All the latest from AWS — product launches, architecture patterns, and security updates in one place.</p>
+  </section>
+
+  <!-- ======================== MAIN ======================== -->
+  <main class="main-content" id="main" role="main">
+
+    <!-- Filter Bar -->
+    <nav class="filter-bar" aria-label="Filter by source">
+      <div class="filter-tabs" role="tablist" id="filterTabs">
+        <!-- Tabs injected by JS -->
+      </div>
+    </nav>
+
+    <!-- Section heading -->
+    <div class="section-heading">
+      <h2 id="sectionLabel">Latest Updates</h2>
+      <span class="item-count" id="itemCount" aria-live="polite"></span>
+    </div>
+
+    <!-- News grid (skeleton shown initially) -->
+    <div id="newsContainer" aria-live="polite" aria-label="News articles"></div>
+
+  </main>
+
+  <!-- ======================== FOOTER ======================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div>
+      Data sourced from official
+      <a href="https://aws.amazon.com/about-aws/whats-new/" target="_blank" rel="noopener noreferrer">AWS feeds</a>.
+      Dashboard auto-updates on every push.
+    </div>
+    <div class="last-updated" id="lastUpdated" aria-live="polite">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span id="lastUpdatedText">Loading…</span>
+    </div>
+  </footer>
+
+  <!-- ======================== JAVASCRIPT ======================== -->
+  <script>
+  (() => {
+    'use strict';
+
+    // ---- Config ----
+    const SOURCES = [
+      { key: 'all',          label: 'All Sources' },
+      { key: "AWS What's New",       label: "What's New" },
+      { key: 'AWS News Blog',        label: 'News Blog' },
+      { key: 'AWS Architecture Blog', label: 'Architecture' },
+      { key: 'AWS Security Blog',    label: 'Security' },
+    ];
+
+    const BADGE_CLASS = {
+      "AWS What's New":        'badge-whats-new',
+      'AWS News Blog':         'badge-news-blog',
+      'AWS Architecture Blog': 'badge-architecture',
+      'AWS Security Blog':     'badge-security',
+    };
+
+    const BADGE_ICON = {
+      "AWS What's New":        '&#9889;',
+      'AWS News Blog':         '&#128240;',
+      'AWS Architecture Blog': '&#127959;',
+      'AWS Security Blog':     '&#128274;',
+    };
+
+    // ---- State ----
+    let allItems = [];
+    let activeSource = 'all';
+
+    // ---- DOM refs ----
+    const filterTabs    = document.getElementById('filterTabs');
+    const newsContainer = document.getElementById('newsContainer');
+    const sectionLabel  = document.getElementById('sectionLabel');
+    const itemCount     = document.getElementById('itemCount');
+    const lastUpdatedText = document.getElementById('lastUpdatedText');
+
+    // ---- Skeleton ----
+    function renderSkeleton() {
+      const count = 6;
+      const grid = document.createElement('div');
+      grid.className = 'skeleton-grid';
+      for (let i = 0; i < count; i++) {
+        grid.innerHTML += `
+          <div class="skeleton-card" aria-hidden="true">
+            <div class="skeleton-line skeleton-badge"></div>
+            <div class="skeleton-line skeleton-title"></div>
+            <div class="skeleton-line skeleton-title2"></div>
+            <div class="skeleton-line skeleton-date"></div>
+          </div>`;
+      }
+      newsContainer.innerHTML = '';
+      newsContainer.appendChild(grid);
+    }
+
+    // ---- Relative time ----
+    function relativeTime(dateStr) {
+      const now  = Date.now();
+      const then = new Date(dateStr).getTime();
+      if (isNaN(then)) return 'Unknown date';
+      const diff = Math.max(0, now - then);
+      const mins  = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days  = Math.floor(diff / 86400000);
+      const weeks = Math.floor(days / 7);
+      if (mins  < 1)   return 'Just now';
+      if (mins  < 60)  return `${mins}m ago`;
+      if (hours < 24)  return `${hours}h ago`;
+      if (days  < 7)   return `${days}d ago`;
+      if (weeks < 5)   return `${weeks}w ago`;
+      return new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // ---- Tab counts ----
+    function getCounts(items) {
+      const counts = { all: items.length };
+      items.forEach(item => {
+        counts[item.source] = (counts[item.source] || 0) + 1;
+      });
+      return counts;
+    }
+
+    // ---- Render Tabs ----
+    function renderTabs(counts) {
+      filterTabs.innerHTML = '';
+      SOURCES.forEach(({ key, label }) => {
+        const count = counts[key] ?? 0;
+        const btn = document.createElement('button');
+        btn.className  = 'tab-btn' + (key === activeSource ? ' active' : '');
+        btn.dataset.source = key;
+        btn.setAttribute('role', 'tab');
+        btn.setAttribute('aria-selected', key === activeSource ? 'true' : 'false');
+        btn.innerHTML = `
+          ${label}
+          <span class="tab-count">${count}</span>
+        `;
+        btn.addEventListener('click', () => {
+          activeSource = key;
+          renderTabs(counts);
+          renderCards();
+        });
+        filterTabs.appendChild(btn);
+      });
+    }
+
+    // ---- Render Cards ----
+    function renderCards() {
+      const filtered = activeSource === 'all'
+        ? allItems
+        : allItems.filter(item => item.source === activeSource);
+
+      const srcLabel = activeSource === 'all' ? 'All Sources' :
+        SOURCES.find(s => s.key === activeSource)?.label ?? activeSource;
+      sectionLabel.textContent = srcLabel;
+      itemCount.textContent = `${filtered.length} article${filtered.length !== 1 ? 's' : ''}`;
+
+      if (filtered.length === 0) {
+        newsContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">&#128240;</div>
+            <h3>No articles found</h3>
+            <p>Try selecting a different source tab.</p>
+          </div>`;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'news-grid';
+
+      filtered.forEach(item => {
+        const badgeClass = BADGE_CLASS[item.source] || 'badge-news-blog';
+        const badgeIcon  = BADGE_ICON[item.source]  || '&#128240;';
+        const time       = relativeTime(item.pubDate);
+        const safeTitle  = escapeHtml(item.title);
+        const safeLink   = escapeAttr(item.link);
+
+        const card = document.createElement('a');
+        card.className  = 'news-card';
+        card.href       = safeLink;
+        card.target     = '_blank';
+        card.rel        = 'noopener noreferrer';
+        card.setAttribute('aria-label', safeTitle);
+
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="source-badge ${badgeClass}" aria-label="${escapeAttr(item.source)}">
+              <span aria-hidden="true">${badgeIcon}</span>
+              ${escapeHtml(item.source.replace('AWS ', '').replace(" Blog", ''))}
+            </span>
+            <svg class="card-link-icon" width="14" height="14" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </div>
+          <h3 class="card-title">${safeTitle}</h3>
+          <div class="card-footer">
+            <span class="card-date">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              <time datetime="${escapeAttr(item.pubDate)}">${time}</time>
+            </span>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+
+      newsContainer.innerHTML = '';
+      newsContainer.appendChild(grid);
+    }
+
+    // ---- Escape helpers ----
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+    function escapeAttr(str) {
+      return String(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // ---- Last updated ----
+    function renderLastUpdated(iso) {
+      if (!iso) { lastUpdatedText.textContent = 'Unknown'; return; }
+      const d = new Date(iso);
+      lastUpdatedText.textContent = 'Last updated: ' + d.toLocaleString(undefined, {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+      });
+    }
+
+    // ---- Error state ----
+    function renderError(msg) {
+      newsContainer.innerHTML = `
+        <div class="error-state">
+          <div class="error-card">
+            <h3>&#9888; Could not load news</h3>
+            <p>${escapeHtml(msg)}</p>
+          </div>
+        </div>`;
+      itemCount.textContent = '';
+      lastUpdatedText.textContent = 'Unavailable';
+    }
+
+    // ---- Bootstrap ----
+    async function init() {
+      renderSkeleton();
+
+      // Build initial empty tabs
+      const emptyCounts = {};
+      SOURCES.forEach(s => { emptyCounts[s.key] = 0; });
+      renderTabs(emptyCounts);
+
+      try {
+        const res = await fetch('./news.json', { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`HTTP ${res.status} — ${res.statusText}`);
+        const data = await res.json();
+
+        if (!Array.isArray(data.items) || data.items.length === 0) {
+          throw new Error('news.json is empty or malformed.');
+        }
+
+        allItems = data.items;
+        const counts = getCounts(allItems);
+        renderTabs(counts);
+        renderCards();
+        renderLastUpdated(data.lastUpdated);
+      } catch (err) {
+        console.error('[AWS News Dashboard]', err);
+        renderError(err.message || 'Failed to fetch news.json');
+      }
+    }
+
+    // Start
+    init();
+  })();
+  </script>
+</body>
+</html>
