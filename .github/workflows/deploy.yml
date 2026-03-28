@@ -9,7 +9,7 @@ on:
 
 # Grant write access so the action can push to gh-pages
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
