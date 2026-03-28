@@ -1,0 +1,185 @@
+{
+  "lastUpdated": "2026-03-28T16:00:00.000Z",
+  "items": [
+    {
+      "title": "Amazon S3 now supports automatic metadata restoration for S3 Intelligent-Tiering",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-s3-automatic-metadata-restoration/",
+      "pubDate": "Fri, 28 Mar 2026 10:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "AWS Lambda announces support for Python 3.14 runtime",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-lambda-python-314/",
+      "pubDate": "Fri, 28 Mar 2026 09:30:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Amazon EKS now supports Kubernetes 1.31 with enhanced node management",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-eks-kubernetes-131/",
+      "pubDate": "Thu, 27 Mar 2026 15:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Introducing Amazon Bedrock Agents with multi-step reasoning capabilities",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-bedrock-agents-multi-step/",
+      "pubDate": "Thu, 27 Mar 2026 12:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "AWS CloudFormation now supports drift detection for 180+ resource types",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-cloudformation-drift-detection/",
+      "pubDate": "Wed, 26 Mar 2026 14:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Amazon RDS for PostgreSQL adds support for pgvector 0.8 with HNSW indexing",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-rds-postgresql-pgvector/",
+      "pubDate": "Wed, 26 Mar 2026 11:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "AWS announces general availability of Amazon Q Developer in the IDE",
+      "link": "https://aws.amazon.com/blogs/aws/amazon-q-developer-general-availability/",
+      "pubDate": "Fri, 28 Mar 2026 08:00:00 +0000",
+      "source": "AWS News Blog"
+    },
+    {
+      "title": "Building resilient multi-region applications with AWS Global Accelerator and Route 53",
+      "link": "https://aws.amazon.com/blogs/aws/multi-region-resilience-global-accelerator/",
+      "pubDate": "Thu, 27 Mar 2026 10:00:00 +0000",
+      "source": "AWS News Blog"
+    },
+    {
+      "title": "How Spotify migrated 100 petabytes to Amazon S3 Glacier",
+      "link": "https://aws.amazon.com/blogs/aws/spotify-migration-s3-glacier/",
+      "pubDate": "Wed, 26 Mar 2026 09:00:00 +0000",
+      "source": "AWS News Blog"
+    },
+    {
+      "title": "Deep dive: Amazon Aurora Limitless Database — how it achieves infinite scale",
+      "link": "https://aws.amazon.com/blogs/aws/aurora-limitless-deep-dive/",
+      "pubDate": "Tue, 25 Mar 2026 14:00:00 +0000",
+      "source": "AWS News Blog"
+    },
+    {
+      "title": "AWS re:Invent 2026 keynote recap — everything announced this year",
+      "link": "https://aws.amazon.com/blogs/aws/reinvent-2026-recap/",
+      "pubDate": "Mon, 24 Mar 2026 18:00:00 +0000",
+      "source": "AWS News Blog"
+    },
+    {
+      "title": "Designing serverless event-driven architectures with Amazon EventBridge and SQS",
+      "link": "https://aws.amazon.com/blogs/architecture/serverless-event-driven-eventbridge-sqs/",
+      "pubDate": "Fri, 28 Mar 2026 07:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    },
+    {
+      "title": "Well-Architected Review: Cost optimization patterns for containerised workloads on ECS",
+      "link": "https://aws.amazon.com/blogs/architecture/cost-optimization-ecs-containers/",
+      "pubDate": "Thu, 27 Mar 2026 08:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    },
+    {
+      "title": "Data mesh architecture on AWS: from concept to production",
+      "link": "https://aws.amazon.com/blogs/architecture/data-mesh-aws-production/",
+      "pubDate": "Wed, 26 Mar 2026 10:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    },
+    {
+      "title": "Implementing zero-downtime deployments with AWS CodeDeploy and blue/green strategies",
+      "link": "https://aws.amazon.com/blogs/architecture/zero-downtime-deployments-codedeploy/",
+      "pubDate": "Tue, 25 Mar 2026 11:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    },
+    {
+      "title": "Building a real-time analytics platform with Amazon Kinesis and Apache Flink",
+      "link": "https://aws.amazon.com/blogs/architecture/real-time-analytics-kinesis-flink/",
+      "pubDate": "Mon, 24 Mar 2026 09:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    },
+    {
+      "title": "AWS announces enhanced threat detection for Amazon GuardDuty with AI-powered analysis",
+      "link": "https://aws.amazon.com/blogs/security/guardduty-ai-threat-detection/",
+      "pubDate": "Fri, 28 Mar 2026 06:00:00 +0000",
+      "source": "AWS Security Blog"
+    },
+    {
+      "title": "Best practices for implementing least-privilege IAM policies at scale",
+      "link": "https://aws.amazon.com/blogs/security/iam-least-privilege-best-practices/",
+      "pubDate": "Thu, 27 Mar 2026 07:00:00 +0000",
+      "source": "AWS Security Blog"
+    },
+    {
+      "title": "How to implement end-to-end encryption for data in transit using AWS Certificate Manager",
+      "link": "https://aws.amazon.com/blogs/security/end-to-end-encryption-acm/",
+      "pubDate": "Wed, 26 Mar 2026 08:00:00 +0000",
+      "source": "AWS Security Blog"
+    },
+    {
+      "title": "Automating compliance checks with AWS Config and Security Hub custom rules",
+      "link": "https://aws.amazon.com/blogs/security/compliance-aws-config-security-hub/",
+      "pubDate": "Tue, 25 Mar 2026 10:00:00 +0000",
+      "source": "AWS Security Blog"
+    },
+    {
+      "title": "AWS Shield Advanced: protecting against DDoS attacks at the application layer",
+      "link": "https://aws.amazon.com/blogs/security/shield-advanced-ddos-protection/",
+      "pubDate": "Mon, 24 Mar 2026 08:00:00 +0000",
+      "source": "AWS Security Blog"
+    },
+    {
+      "title": "Amazon EC2 now supports graviton4-based M8g instances in all AWS regions",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/ec2-graviton4-m8g-all-regions/",
+      "pubDate": "Sun, 23 Mar 2026 14:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "AWS App Runner adds support for private VPC endpoints and custom domains",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/app-runner-vpc-endpoints/",
+      "pubDate": "Sat, 22 Mar 2026 10:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Amazon DynamoDB introduces adaptive capacity improvements for hot partition mitigation",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/dynamodb-adaptive-capacity/",
+      "pubDate": "Fri, 21 Mar 2026 12:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Migrating from on-premises Oracle to Amazon Aurora with minimal downtime",
+      "link": "https://aws.amazon.com/blogs/aws/oracle-aurora-migration-guide/",
+      "pubDate": "Sun, 23 Mar 2026 10:00:00 +0000",
+      "source": "AWS News Blog"
+    },
+    {
+      "title": "GitOps on AWS: deploying infrastructure with Flux and Amazon EKS",
+      "link": "https://aws.amazon.com/blogs/architecture/gitops-flux-eks/",
+      "pubDate": "Sat, 22 Mar 2026 08:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    },
+    {
+      "title": "Securing generative AI workloads: a practical guide for enterprise AWS deployments",
+      "link": "https://aws.amazon.com/blogs/security/securing-generative-ai-workloads/",
+      "pubDate": "Sat, 22 Mar 2026 07:00:00 +0000",
+      "source": "AWS Security Blog"
+    },
+    {
+      "title": "AWS Wavelength now available in 12 new metropolitan areas worldwide",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/aws-wavelength-12-new-metro/",
+      "pubDate": "Fri, 21 Mar 2026 10:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Amazon CloudWatch Application Signals adds distributed tracing for Rust applications",
+      "link": "https://aws.amazon.com/about-aws/whats-new/2026/03/cloudwatch-signals-rust/",
+      "pubDate": "Thu, 20 Mar 2026 14:00:00 +0000",
+      "source": "AWS What's New"
+    },
+    {
+      "title": "Infrastructure as Code best practices: managing multi-account AWS environments with CDK",
+      "link": "https://aws.amazon.com/blogs/architecture/iac-best-practices-cdk-multi-account/",
+      "pubDate": "Fri, 21 Mar 2026 09:00:00 +0000",
+      "source": "AWS Architecture Blog"
+    }
+  ]
+}
